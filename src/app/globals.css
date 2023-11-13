@@ -20,18 +20,18 @@ body {
 }
 @media (width > 1024px) {
   .layout {
-    margin: 40px;
+    margin: auto 200px;
   }
 }
 
 @media (width >= 1280px) {
   .layout {
-    margin: 40px;
+    margin: auto 200px;
   }
 }
 
 @media (width >= 1536px) {
   .layout {
-    margin: 40px;
+    margin: auto 400px;
   }
 }
