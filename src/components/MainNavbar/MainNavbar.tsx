@@ -28,14 +28,18 @@ const MainNavbar = () => {
             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
             className="sm:hidden mr-4"
           />
-          <p className="font-bold text-inherit text-xl">Matricula Facil</p>
+          <Link href="/" className="text-black">
+            <p className="font-bold text-inherit text-xl cursor-pointer">
+              Matricula Facil
+            </p>
+          </Link>
         </NavbarBrand>
         <NavbarContent
           className="hidden sm:flex gap-8 justify-between"
           justify="center"
         >
           <NavbarItem>
-            <Link className="text-sm" color="foreground" href="#">
+            <Link className="text-sm" color="foreground" href="/">
               Inicio
             </Link>
           </NavbarItem>
@@ -55,15 +59,15 @@ const MainNavbar = () => {
             </Link>
           </NavbarItem>
           <NavbarItem isActive>
-            <Link className="text-sm" color="foreground" href="#">
+            <Link className="text-sm" color="foreground" href="/identify">
               Probar Ahora
             </Link>
           </NavbarItem>
         </NavbarContent>
         {/* Mobile */}
         <NavbarMenu>
-          <NavbarMenuItem>
-            <Link className="text-base" color="foreground" href="#">
+          <NavbarMenuItem className="mt-4">
+            <Link className="text-base" color="foreground" href="/">
               Inicio
             </Link>
           </NavbarMenuItem>
@@ -83,7 +87,7 @@ const MainNavbar = () => {
             </Link>
           </NavbarMenuItem>
           <NavbarMenuItem isActive>
-            <Link className="text-base" color="foreground" href="#">
+            <Link className="text-base" color="foreground" href="/identify">
               Probar Ahora
             </Link>
           </NavbarMenuItem>

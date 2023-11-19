@@ -1,9 +1,11 @@
 import Image from "next/image";
 import MainPageIcon from "@/assets/svgs/mainPageIcon.svg";
 import MainPageBanner from "@/assets/svgs/mainPageBanner.svg";
-import { Button } from "@nextui-org/react";
+import { Button, Link } from "@nextui-org/react";
 
-export default function Home() {
+import React from "react";
+
+const Home = () => {
   return (
     <main className="layout">
       <div className="flex flex-col-reverse md:flex-row justify-between items-start gap-8 md:gap-0 mt-6">
@@ -13,12 +15,22 @@ export default function Home() {
             Matricularse nunca ha sido tan facil, al paso de unos simples click
             accede a toda la informacion necesaria para matricular a los tuyos!
           </p>
-          <Button className="mt-8" color="primary" radius="sm">
-            Inicia Ahora
-          </Button>
+          <Link href="/identify" className="text-black">
+            <Button className="mt-8" color="primary" radius="sm">
+              Inicia Ahora
+            </Button>
+          </Link>
         </div>
-        <Image quality={100} className="mt-4 p-3 md:p-0" src={MainPageIcon} alt={""} width="500" ></Image>
+        <Image
+          quality={100}
+          className="mt-4 p-3 md:p-0"
+          src={MainPageIcon}
+          alt={""}
+          width="500"
+        ></Image>
       </div>
     </main>
   );
-}
+};
+
+export default Home;
