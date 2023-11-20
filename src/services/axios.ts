@@ -1,5 +1,6 @@
 import axios, { AxiosResponse, AxiosError } from "axios";
 
+axios.defaults.withCredentials = true;
 // Define a generic response type
 interface ApiResponse<T = any> {
   data: T;
