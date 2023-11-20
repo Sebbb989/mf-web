@@ -1,6 +1,8 @@
 import axios, { AxiosResponse, AxiosError } from "axios";
 
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
 axios.defaults.withCredentials = true;
+
 // Define a generic response type
 interface ApiResponse<T = any> {
   data: T;
