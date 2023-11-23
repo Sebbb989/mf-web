@@ -23,6 +23,7 @@ const handleError = (error: AxiosError): ApiResponse<any> => {
 export const get = async <T>(url: string): Promise<ApiResponse<T>> => {
   try {
     const response = await axios.get<T>(process.env.NEXT_PUBLIC_API_URL + url);
+
     return handleResponse<T>(response);
   } catch (error) {
     return handleError(error as AxiosError);
@@ -35,7 +36,13 @@ export const post = async <T>(
   data: any
 ): Promise<ApiResponse<T>> => {
   try {
-    const response = await axios.post<T>(process.env.NEXT_PUBLIC_API_URL + url, data);
+    const response = await axios.post<T>(
+      process.env.NEXT_PUBLIC_API_URL + url,
+      data,
+      {
+        responseType: "blob",
+      }
+    );
     return handleResponse<T>(response);
   } catch (error) {
     return handleError(error as AxiosError);

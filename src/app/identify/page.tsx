@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   Button,
+  Checkbox,
   Input,
   Modal,
   ModalBody,
@@ -19,6 +20,7 @@ import SuccessIdentifyIcon from "@/assets/svgs/successIdentifyIcon.svg";
 type Inputs = {
   name: string;
   email: string;
+  dni: string;
   password: string;
 };
 
@@ -32,26 +34,23 @@ const Identify = () => {
 
   const [isSignIn, setIsSignIn] = useState(true);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const redirect = () => {
     setTimeout(() => {
-      router.push("/");
+      router.push("/dashboard");
     }, 1500);
   };
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    setIsDisabled(true);
     if (isSignIn) {
-      await signIn(data.email, data.password).finally(() => {
-        onOpen();
-        redirect();
-      });
+      await signIn(data.dni, data.password, redirect, onOpen);
+      setIsDisabled(false);
     } else {
-      signUp(data).finally(() => {
-        onOpen();
-        redirect();
-      });
+      await signUp(data, redirect, onOpen);
+      setIsDisabled(false);
     }
-    console.log(data);
   };
 
   return (
@@ -84,13 +83,78 @@ const Identify = () => {
               {...register("name", { required: isSignIn ? false : true })}
             />
             <Input
+              key={"dni-input"}
+              type="dni"
+              label="Identificacion personal"
+              labelPlacement={"outside"}
+              placeholder="8-888-8888"
+              {...register("dni", { required: true })}
+            />
+
+            <div className={`${isSignIn ? "hidden" : ""}`}>
+              <label className="mb-2 text-sm inline-block text-neutral-700 dark:text-neutral-200">
+                Imagen de la identificación
+              </label>
+              <input
+                accept="images/*"
+                key={"dniImage-input"}
+                type="file"
+                className={`"relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-neutral-300 bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-neutral-700 transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-neutral-100 file:px-3 file:py-[0.32rem] file:text-neutral-700 file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-neutral-200 focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:file:bg-neutral-700 dark:file:text-neutral-100 dark:focus:border-primary"
+                }`}
+              />
+            </div>
+            <div className={`${isSignIn ? "hidden" : ""}`}>
+              <label className="mb-2 text-sm inline-block text-neutral-700 dark:text-neutral-200">
+                Créditos escolares
+              </label>
+              <input
+                accept="images/*"
+                key={"credits-input"}
+                type="file"
+                className={`"relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-neutral-300 bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-neutral-700 transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-neutral-100 file:px-3 file:py-[0.32rem] file:text-neutral-700 file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-neutral-200 focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:file:bg-neutral-700 dark:file:text-neutral-100 dark:focus:border-primary"
+                }`}
+              />
+            </div>
+            <div className={`${isSignIn ? "hidden" : ""}`}>
+              <label className="mb-2 text-sm inline-block text-neutral-700 dark:text-neutral-200">
+                Certificado de salud
+              </label>
+              <input
+                accept="images/*"
+                key={"healthCertificate-input"}
+                type="file"
+                className={`"relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-neutral-300 bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-neutral-700 transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-neutral-100 file:px-3 file:py-[0.32rem] file:text-neutral-700 file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-neutral-200 focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:file:bg-neutral-700 dark:file:text-neutral-100 dark:focus:border-primary"
+                }`}
+              />
+            </div>
+
+            <Input
               key={"email-input"}
               type="email"
               label="Correo electronico"
               labelPlacement={"outside"}
               placeholder="abc@def.com"
-              {...register("email", { required: true })}
+              className={`${isSignIn ? "hidden" : ""}`}
+              {...register("email", { required: isSignIn ? false : true })}
             />
+
+            <Checkbox className={`${isSignIn ? "hidden" : ""}`}>
+              Es extranjero?
+            </Checkbox>
+
+            <div className={`${isSignIn ? "hidden" : ""}`}>
+              <label className="mb-2 text-sm inline-block text-neutral-700 dark:text-neutral-200">
+                Documento de migración
+              </label>
+              <input
+                accept="images/*"
+                key={"migratonCertificate-input"}
+                type="file"
+                className={`"relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-neutral-300 bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-neutral-700 transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-neutral-100 file:px-3 file:py-[0.32rem] file:text-neutral-700 file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-neutral-200 focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:file:bg-neutral-700 dark:file:text-neutral-100 dark:focus:border-primary"
+                }`}
+              />
+            </div>
+
             <Input
               key={"password-input"}
               type="password"
@@ -106,10 +170,11 @@ const Identify = () => {
             )}
             <div className="flex justify-between items-center gap-4">
               <p className="text-gray-600 text-xs md:text-sm w-3/4 md:w-2/4">
-                Al ingresar o registrarte aceptas nuestros terminos y
+                Al ingresar o registrarte aceptas nuestros términos y
                 condiciones
               </p>
               <Button
+                isDisabled={isDisabled}
                 className="mt-2 w-2/4 md:w-1/3"
                 color="primary"
                 radius="md"
@@ -134,7 +199,7 @@ const Identify = () => {
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1 mx-auto">
-                Te has identificado con exito
+                Te has identificado con éxito
               </ModalHeader>
               <ModalBody>
                 <Image
