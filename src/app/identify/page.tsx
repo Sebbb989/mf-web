@@ -16,12 +16,15 @@ import Image from "next/image";
 import { signIn, signUp } from "@/hooks/handleIdentify";
 import { useForm, SubmitHandler } from "react-hook-form";
 import SuccessIdentifyIcon from "@/assets/svgs/successIdentifyIcon.svg";
+import { useIsLoggedIn, useUser } from "@/store/zustand";
 
 type Inputs = {
   name: string;
   email: string;
   dni: string;
   password: string;
+  parent0: string;
+  parent1: string;
 };
 
 const Identify = () => {
@@ -32,9 +35,15 @@ const Identify = () => {
     formState: { isValid },
   } = useForm<Inputs>({ reValidateMode: "onChange", mode: "onChange" });
 
+  const { user, setUser } = useUser();
+  const { confirmLogIn } = useIsLoggedIn();
+
   const [isSignIn, setIsSignIn] = useState(true);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isDisabled, setIsDisabled] = useState(false);
+  const [parent0Selected, setParent0Selected] = useState(false);
+  const [parent1Selected, setParent1Selected] = useState(false);
+  const [isForeign, setIsForeign] = useState(false);
 
   const redirect = () => {
     setTimeout(() => {
@@ -45,7 +54,18 @@ const Identify = () => {
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     setIsDisabled(true);
     if (isSignIn) {
-      await signIn(data.dni, data.password, redirect, onOpen);
+      const response: any = await signIn(
+        data.dni,
+        data.password,
+        redirect,
+        onOpen
+      );
+      setUser({
+        name: response.name,
+        email: response.email,
+        dni: response.dni,
+      });
+      confirmLogIn();
       setIsDisabled(false);
     } else {
       await signUp(data, redirect, onOpen);
@@ -59,7 +79,7 @@ const Identify = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="w-3/4 md:w-2/4">
           <section className="flex flex-col gap-4 my-12">
             <div className="flex justify-between items-center">
-              <h1 className="text-3xl">
+              <h1 className="text-xl font-bold">
                 {isSignIn ? "Inicia sesion" : "Registrate"}
               </h1>
               <Button
@@ -138,11 +158,19 @@ const Identify = () => {
               {...register("email", { required: isSignIn ? false : true })}
             />
 
-            <Checkbox className={`${isSignIn ? "hidden" : ""}`}>
+            <Checkbox
+              isSelected={isForeign}
+              className={`${isSignIn ? "hidden" : ""}`}
+              onChange={() => setIsForeign(!isForeign)}
+            >
               Es extranjero?
             </Checkbox>
 
-            <div className={`${isSignIn ? "hidden" : ""}`}>
+            <div
+              className={`${
+                isSignIn ? "hidden" : isForeign ? "block" : "hidden"
+              }`}
+            >
               <label className="mb-2 text-sm inline-block text-neutral-700 dark:text-neutral-200">
                 Documento de migración
               </label>
@@ -150,10 +178,52 @@ const Identify = () => {
                 accept="images/*"
                 key={"migratonCertificate-input"}
                 type="file"
-                className={`"relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-neutral-300 bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-neutral-700 transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-neutral-100 file:px-3 file:py-[0.32rem] file:text-neutral-700 file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-neutral-200 focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:file:bg-neutral-700 dark:file:text-neutral-100 dark:focus:border-primary"
+                className={`relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-neutral-300 bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-neutral-700 transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-neutral-100 file:px-3 file:py-[0.32rem] file:text-neutral-700 file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-neutral-200 focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:file:bg-neutral-700 dark:file:text-neutral-100 dark:focus:border-primary
                 }`}
               />
             </div>
+
+            <Input
+              key={"parent0-input"}
+              type="text"
+              label="Nombre completo del padre"
+              labelPlacement={"outside"}
+              placeholder="Juan Perez"
+              className={`${isSignIn ? "hidden" : ""}`}
+              isDisabled={isSignIn ? false : !!parent0Selected}
+              {...register("parent0", {
+                required: isSignIn ? false : !!!parent0Selected,
+              })}
+            />
+
+            <Checkbox
+              isSelected={parent0Selected}
+              className={`${isSignIn ? "hidden" : ""}`}
+              onChange={() => setParent0Selected(!parent0Selected)}
+            >
+              No tiene
+            </Checkbox>
+
+            <Input
+              key={"parent1-input"}
+              type="text"
+              label="Nombre completo de la madre"
+              labelPlacement={"outside"}
+              placeholder="Juanita Ramos"
+              className={`${isSignIn ? "hidden" : ""}`}
+              isDisabled={isSignIn ? false : !!parent1Selected}
+              {...register("parent1", {
+                required: isSignIn ? false : !!!parent1Selected,
+              })}
+            />
+
+            <Checkbox
+              isSelected={parent1Selected}
+              className={`${isSignIn ? "hidden" : ""}`}
+              onChange={() => setParent1Selected(!parent1Selected)}
+            >
+              No tiene
+            </Checkbox>
 
             <Input
               key={"password-input"}

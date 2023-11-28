@@ -1,20 +1,54 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Navbar,
   NavbarBrand,
   NavbarContent,
   NavbarItem,
   Link,
-  Button,
   NavbarMenuToggle,
   NavbarMenu,
   NavbarMenuItem,
+  Dropdown,
+  Button,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
 } from "@nextui-org/react";
+import { checkAuthToken, logout } from "@/hooks/handleIdentify";
+import { useIsLoggedIn, useUser } from "@/store/zustand";
+import { useRouter } from "next/navigation";
 
 const MainNavbar = () => {
+  const router = useRouter();
+
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const { isLoggedIn, confirmLogIn, denyLogIn } = useIsLoggedIn();
+  const { setUser } = useUser();
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      const res = async () => {
+        const data = await checkAuthToken();
+        if (data) {
+          console.log(data);
+          setUser({ name: data.name, email: data.email, dni: data.dni });
+          confirmLogIn();
+        } else {
+          denyLogIn();
+        }
+      };
+      res();
+    }
+  }, []);
+
+  const handleLogOut = () => {
+    logout();
+    setUser(null);
+    denyLogIn();
+    router.push("/");
+  }
 
   return (
     <div className="layout">
@@ -59,9 +93,27 @@ const MainNavbar = () => {
             </Link>
           </NavbarItem>
           <NavbarItem isActive>
-            <Link className="text-sm" color="foreground" href="/identify">
-              Probar Ahora
-            </Link>
+            {!isLoggedIn ? (
+              <Link className="text-sm" color="foreground" href="/identify">
+                Probar Ahora
+              </Link>
+            ) : (
+              <Dropdown>
+                <DropdownTrigger>
+                  <Button size="sm" variant="bordered" color="primary" className="text-sm">Opciones</Button>
+                </DropdownTrigger>
+                <DropdownMenu aria-label="Dynamic Actions">
+                    <DropdownItem
+                      key={'first-dropdown'}
+                      color={"danger"}
+                      className={"text-red-600"}
+                      onClick={handleLogOut}
+                    >
+                      {'Cerrar sesión'}
+                    </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            )}
           </NavbarItem>
         </NavbarContent>
         {/* Mobile */}
@@ -87,9 +139,13 @@ const MainNavbar = () => {
             </Link>
           </NavbarMenuItem>
           <NavbarMenuItem isActive>
-            <Link className="text-base" color="foreground" href="/identify">
-              Probar Ahora
-            </Link>
+            {!isLoggedIn ? (
+              <Link className="text-sm" color="foreground" href="/identify">
+                Probar Ahora
+              </Link>
+            ) : (
+              <p className="text-red-500 text-base" onClick={handleLogOut}>Cerrar sesión</p>
+            )}
           </NavbarMenuItem>
         </NavbarMenu>
         {/* Mobile */}

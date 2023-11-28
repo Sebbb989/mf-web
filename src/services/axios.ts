@@ -10,8 +10,8 @@ interface ApiResponse<T = any> {
 }
 
 // Define a generic function for handling Axios responses
-const handleResponse = <T>(response: AxiosResponse<T>): ApiResponse<T> => {
-  return { data: response.data };
+const handleResponse = <T>(response: AxiosResponse<T>) => {
+  return { data: response.data, status: response.status };
 };
 
 // Define a generic function for handling Axios errors
@@ -38,10 +38,7 @@ export const post = async <T>(
   try {
     const response = await axios.post<T>(
       process.env.NEXT_PUBLIC_API_URL + url,
-      data,
-      {
-        responseType: "blob",
-      }
+      data
     );
     return handleResponse<T>(response);
   } catch (error) {

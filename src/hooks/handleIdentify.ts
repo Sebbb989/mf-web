@@ -1,6 +1,18 @@
 import { get, post } from "@/services/axios";
 import toast from "react-hot-toast";
 
+export const checkAuthToken = async () => {
+  try {
+    const res: any = await get("user/auth-status");
+    if (res.status !== 200) {
+      return null;
+    }
+    return res.data;
+  } catch (e) {
+    throw console.error(e);
+  }
+};
+
 export const signIn = async (
   dni: string,
   password: string,
@@ -15,6 +27,7 @@ export const signIn = async (
     console.log("Data:", result.data);
     onOpenSuccess();
     redirect();
+    return result.data
   } else {
     toast.error("Datos incorrectos");
     console.error("Error:", result.error);
@@ -42,4 +55,13 @@ export const signUp = async (data: any, redirect: any, onOpenSuccess: any) => {
     toast.error("Revisa tus datos e intenta nuevamente");
     console.error("Error:", result.error);
   }
+};
+
+export const logout = async () => {
+    const res: any = await get("user/logout");
+    if(res.status !== 200){
+      throw console.error("Unable to logout")
+    }
+    toast.success("Ha salido con éxito de su sesión");
+    return await res.data
 };
