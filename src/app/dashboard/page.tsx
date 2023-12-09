@@ -57,7 +57,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     getGrade();
-  }, [institutes, localInstitute]);
+  }, [institutes, localInstitute, localGrade]);
 
   return (
     <>
