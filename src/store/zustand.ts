@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import IUser from "@/interfaces/interfaces";
+import { set } from "react-hook-form";
 
 type isLoggedIn = {
   isLoggedIn: boolean;
@@ -8,8 +9,13 @@ type isLoggedIn = {
 };
 
 type user = {
-  user: IUser | null;
-  setUser: (newUser: IUser | null) => void;
+  user: any | null;
+  setUser: (newUser: any | null) => void;
+};
+
+type institutes = {
+  institutes: Array<any> | null;
+  setInstitutes: (newInstitutes: Array<any>) => void;
 };
 
 export const useIsLoggedIn = create<isLoggedIn>((set) => ({
@@ -19,6 +25,18 @@ export const useIsLoggedIn = create<isLoggedIn>((set) => ({
 }));
 
 export const useUser = create<user>((set) => ({
-  user: { name: "", email: "", dni: "" },
+  user: {
+    id: "",
+    name: "",
+    email: "",
+    dni: "",
+    isEnrolled: false,
+    enrollNumber: "",
+  },
   setUser: (newUser) => set(() => ({ user: newUser })),
+}));
+
+export const useInstitutes = create<institutes>((set) => ({
+  institutes: null,
+  setInstitutes: (newInstitutes) => set(() => ({ institutes: newInstitutes })),
 }));

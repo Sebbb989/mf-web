@@ -51,6 +51,7 @@ export const signUp = async (data: any, redirect: any, onOpenSuccess: any) => {
     console.log("Post created with ID:", result.data.id);
     onOpenSuccess();
     redirect();
+    return result.data
   } else {
     toast.error("Revisa tus datos e intenta nuevamente");
     console.error("Error:", result.error);

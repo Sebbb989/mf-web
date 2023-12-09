@@ -32,8 +32,8 @@ const MainNavbar = () => {
       const res = async () => {
         const data = await checkAuthToken();
         if (data) {
-          console.log(data);
-          setUser({ name: data.name, email: data.email, dni: data.dni });
+          // console.log(data);
+          setUser({id: data.id, name: data.name, email: data.email, dni: data.dni, isEnrolled: data.isEnrolled ?? false, enrollNumber: data.enrollNumber ?? null });
           confirmLogIn();
         } else {
           denyLogIn();
@@ -77,21 +77,6 @@ const MainNavbar = () => {
               Inicio
             </Link>
           </NavbarItem>
-          <NavbarItem>
-            <Link className="text-sm" color="foreground" href="#">
-              Nosotros
-            </Link>
-          </NavbarItem>
-          <NavbarItem>
-            <Link className="text-sm" color="foreground" href="#">
-              Blogs
-            </Link>
-          </NavbarItem>
-          <NavbarItem>
-            <Link className="text-sm" color="foreground" href="#">
-              Contacto
-            </Link>
-          </NavbarItem>
           <NavbarItem isActive>
             {!isLoggedIn ? (
               <Link className="text-sm" color="foreground" href="/identify">
@@ -121,21 +106,6 @@ const MainNavbar = () => {
           <NavbarMenuItem className="mt-4">
             <Link className="text-base" color="foreground" href="/">
               Inicio
-            </Link>
-          </NavbarMenuItem>
-          <NavbarMenuItem>
-            <Link className="text-base" color="foreground" href="#">
-              Nosotros
-            </Link>
-          </NavbarMenuItem>
-          <NavbarMenuItem>
-            <Link className="text-base" color="foreground" href="#">
-              Blogs
-            </Link>
-          </NavbarMenuItem>
-          <NavbarMenuItem>
-            <Link className="text-base" color="foreground" href="#">
-              Contacto
             </Link>
           </NavbarMenuItem>
           <NavbarMenuItem isActive>
