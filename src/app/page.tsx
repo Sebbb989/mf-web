@@ -16,8 +16,8 @@ const Home = () => {
         <div className="">
           <Image src={MainPageBanner} alt={""} width="400" height="500"></Image>
           <p className="mt-8 md:w-80 w-auto">
-            Matricularse nunca ha sido tan facil, al paso de unos simples click
-            accede a toda la informacion necesaria para matricular a los tuyos!
+            Matricularse nunca ha sido tan fácil, al paso de unos simples clic
+            accede a toda la información necesaria para matricular a los tuyos!
           </p>
           <Link
             href={`${isLoggedIn ? "/dashboard" : "/identify"}`}

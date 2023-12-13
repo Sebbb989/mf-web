@@ -58,7 +58,7 @@ const Identify = () => {
       email: response?.email,
       dni: response?.dni,
       isEnrolled: response?.isEnrolled,
-      enrollNumber: response?.enrollNumber ?? null
+      enrollNumber: response?.enrollNumber ?? null,
     });
     confirmLogIn();
     setIsDisabled(false);
@@ -190,7 +190,13 @@ const Identify = () => {
               />
             </div>
 
-            <h3 className={`${isSignIn ? "hidden" : "mt-8 mb-4 text-xl font-bold"}`}>Información de los padres</h3>
+            <h3
+              className={`${
+                isSignIn ? "hidden" : "mt-8 mb-4 text-xl font-bold"
+              }`}
+            >
+              Información de los padres
+            </h3>
             <Input
               key={"parent0-input"}
               type="text"
@@ -204,7 +210,11 @@ const Identify = () => {
               })}
             />
 
-            <div className={`${isSignIn ? "hidden" : parent0Selected ? "hidden":""}`}>
+            <div
+              className={`${
+                isSignIn ? "hidden" : parent0Selected ? "hidden" : ""
+              }`}
+            >
               <label className="mb-2 text-sm inline-block text-neutral-700 dark:text-neutral-200">
                 Documento de identidad del padre
               </label>
@@ -238,9 +248,13 @@ const Identify = () => {
               })}
             />
 
-            <div className={`${isSignIn ? "hidden" : parent1Selected ? "hidden":""}`}>
+            <div
+              className={`${
+                isSignIn ? "hidden" : parent1Selected ? "hidden" : ""
+              }`}
+            >
               <label className="mb-2 text-sm inline-block text-neutral-700 dark:text-neutral-200">
-              Documento de identidad de la madre
+                Documento de identidad de la madre
               </label>
               <input
                 accept="images/*"
@@ -259,7 +273,13 @@ const Identify = () => {
               No tiene
             </Checkbox>
 
-            <h3 className={`${isSignIn ? "hidden" : "mt-8 mb-4 text-xl font-bold"}`}>Información de seguridad</h3>
+            <h3
+              className={`${
+                isSignIn ? "hidden" : "mt-8 mb-4 text-xl font-bold"
+              }`}
+            >
+              Información de seguridad
+            </h3>
 
             <Input
               key={"password-input"}

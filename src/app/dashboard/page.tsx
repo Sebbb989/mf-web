@@ -86,7 +86,7 @@ const Dashboard = () => {
         {!user?.isEnrolled ? (
           <>
             <h2 className="ml-0 w-full -mb-6 font-semibold text-xl">
-              Tabla de insituciones
+              Tabla de instituciones
             </h2>
             <Table isStriped aria-label="Example static collection table">
               <TableHeader>
@@ -125,7 +125,7 @@ const Dashboard = () => {
         ) : (
           <>
             <h2 className="ml-0 w-full -mb-2 font-semibold text-xl">
-              Datos de su matricula
+              Datos de su matrícula
             </h2>
 
             <p className="text-left w-full font-bold flex justify-start items-center gap-2 ">
@@ -138,8 +138,8 @@ const Dashboard = () => {
               Grado: {localGrade?.grade}
             </p>
             <p className="text-left w-full -mt-6 text-sm text-red-500">
-              Éste es sú número de matrícula, debe presentarse con éste mismo el
-              primer dia de clase para validación y posteriormente asignación a
+              Este es su número de matrícula, debe presentarse con este mismo el
+              primer día de clase para validación y posteriormente asignación a
               su respectivo salón de clase.
             </p>
 
@@ -187,13 +187,13 @@ const Dashboard = () => {
               <div className="relative flex w-72 flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
                 <div className="p-6">
                   <h5 className="mb-2 block font-sans text-xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
-                    Utiles
+                    Útiles
                   </h5>
                   <p className="block font-sans text-base font-light leading-relaxed text-inherit antialiased">
-                    Se recomienda la compra basica de plumas, lapices,
+                    Se recomienda la compra básica de plumas, lápices,
                     cuadernos, libretas, portafolio, agenda, colores, kit de
-                    geometria. Aparte el primer dia de clases se le
-                    proporcionara información acerca de material adicional como
+                    geometría. Aparte, el primer día de clases se le
+                    proporcionará información acerca de material adicional como
                     libros o herramientas complementarias.
                   </p>
                 </div>
@@ -204,9 +204,9 @@ const Dashboard = () => {
                     Reglamento
                   </h5>
                   <p className="block font-sans text-base font-light leading-relaxed text-inherit antialiased">
-                    Compartimos su correo electronico con la institución a la
-                    cual se matriculo, recibira una copia del reglamento
-                    directamente a su correo, por favor leerlo antes del inicio
+                    Compartimos su correo electrónico con la institución a la
+                    cuál se matriculó, recibirá una copia del reglamento
+                    directamente, a su correo, por favor leerlo antes del inicio
                     de clases.
                   </p>
                 </div>
